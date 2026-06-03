@@ -7,9 +7,8 @@
   
 <!-- Labels: -->
   <!-- First row: -->
-  <a href="https://gitpod.io/#https://github.com/TheAlgorithms/Python">
-    
-    <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=flat-square" height="20" alt="Gitpod Ready-to-Code">
+  <a href="https://gitpod.io/#https://github.com/TheAlgorithms/Python">  
+  <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=flat-square" height="20" alt="Gitpod Ready-to-Code">
   </a>
   <a href="https://github.com/TheAlgorithms/Python/blob/master/CONTRIBUTING.md">
     <img src="https://img.shields.io/static/v1.svg?label=Contributions&message=Welcome&color=0059b3&style=flat-square" height="20" alt="Contributions Welcome">
