@@ -11,32 +11,51 @@
 </iframe>
 
 <script>
-async function loadGraphList() {
-  const apiUrl = "https://mvmckalklogthnnzvjhm.supabase.co/storage/v1/object/list/codeval.ai/repos/TheAlgorithms";
+const BASE = "https://mvmckalklogthnnzvjhm.supabase.co/storage/v1/object";
+const PUBLIC = `${BASE}/public/codeval.ai/repos/TheAlgorithms`;
+const LIST = `${BASE}/list/codeval.ai/repos/TheAlgorithms`;
 
-  const response = await fetch(apiUrl);
-  const files = await response.json();
+async function listFolder(path = "") {
+  const url = `${BASE}/list/codeval.ai/repos/TheAlgorithms${path}`;
+  const res = await fetch(url);
+  const items = await res.json();
+
+  let results = [];
+
+  for (const item of items) {
+    if (item.name.endsWith(".html")) {
+      results.push(path + "/" + item.name);
+    }
+
+    if (item.metadata && item.metadata.isDirectory) {
+      const sub = await listFolder(path + "/" + item.name);
+      results = results.concat(sub);
+    }
+  }
+
+  return results;
+}
+
+async function loadGraphList() {
+  const files = await listFolder("");
 
   const dropdown = document.getElementById("graphSelector");
-  dropdown.innerHTML = ""; // clear loading text
+  dropdown.innerHTML = "";
 
-  files
-    .filter(f => f.name.endsWith(".html"))
-    .forEach(file => {
-      const option = document.createElement("option");
-      option.value = file.name;
-      option.textContent = file.name;
-      dropdown.appendChild(option);
-    });
+  files.forEach(file => {
+    const option = document.createElement("option");
+    option.value = file;
+    option.textContent = file;
+    dropdown.appendChild(option);
+  });
 
-  // Load first file automatically
   if (files.length > 0) {
-    loadGraph(files[0].name);
+    loadGraph(files[0]);
   }
 }
 
-function loadGraph(filename) {
-  const url = `https://mvmckalklogthnnzvjhm.supabase.co/storage/v1/object/public/codeval.ai/repos/TheAlgorithms/${filename}`;
+function loadGraph(path) {
+  const url = `${PUBLIC}${path}`;
   document.getElementById("graphFrame").src = url;
 }
 
@@ -44,6 +63,5 @@ document.getElementById("graphSelector").addEventListener("change", (e) => {
   loadGraph(e.target.value);
 });
 
-// Load list on page load
 loadGraphList();
 </script>
