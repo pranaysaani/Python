@@ -2,8 +2,8 @@ const res = await fetch(`${PROJECT_URL}/storage/v1/object/list/${BUCKET}`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "apikey": "<YOUR_ANON_KEY>",
-    "Authorization": "Bearer <YOUR_ANON_KEY>"
+    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12bWNrYWxrbG9ndGhubnp2amhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MjY0NDEsImV4cCI6MjA5NTQwMjQ0MX0.cDWVrsarZeaMobEQIyZh4JbsW_TpQpwIJISbcz4mcYg",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12bWNrYWxrbG9ndGhubnp2amhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MjY0NDEsImV4cCI6MjA5NTQwMjQ0MX0.cDWVrsarZeaMobEQIyZh4JbsW_TpQpwIJISbcz4mcYg"
   },
   body: JSON.stringify({
     prefix: prefix,
