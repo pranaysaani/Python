@@ -11,25 +11,31 @@
 </iframe>
 
 <script>
-const BASE = "https://mvmckalklogthnnzvjhm.supabase.co/storage/v1/object";
-const PUBLIC = `${BASE}/public/codeval.ai/repos/TheAlgorithms`;
-const LIST = `${BASE}/list/codeval.ai/repos/TheAlgorithms`;
+const PROJECT_URL = "https://mvmckalklogthnnzvjhm.supabase.co";
+const BUCKET = "codeval.ai";
+const ROOT_PREFIX = "repos/TheAlgorithms/";
 
-async function listFolder(path = "") {
-  const url = `${BASE}/list/codeval.ai/repos/TheAlgorithms${path}`;
-  const res = await fetch(url);
+async function listFolder(prefix) {
+  const res = await fetch(`${PROJECT_URL}/storage/v1/object/list/${BUCKET}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prefix: prefix,
+      limit: 1000
+    })
+  });
+
   const items = await res.json();
-
   let results = [];
 
   for (const item of items) {
-    if (item.name.endsWith(".html")) {
-      results.push(path + "/" + item.name);
-    }
+    const fullPath = prefix + item.name;
 
     if (item.metadata && item.metadata.isDirectory) {
-      const sub = await listFolder(path + "/" + item.name);
+      const sub = await listFolder(fullPath + "/");
       results = results.concat(sub);
+    } else if (fullPath.endsWith(".html")) {
+      results.push(fullPath);
     }
   }
 
@@ -37,15 +43,15 @@ async function listFolder(path = "") {
 }
 
 async function loadGraphList() {
-  const files = await listFolder("");
+  const files = await listFolder(ROOT_PREFIX);
 
   const dropdown = document.getElementById("graphSelector");
   dropdown.innerHTML = "";
 
-  files.forEach(file => {
+  files.forEach(path => {
     const option = document.createElement("option");
-    option.value = file;
-    option.textContent = file;
+    option.value = path;
+    option.textContent = path.replace(ROOT_PREFIX, "");
     dropdown.appendChild(option);
   });
 
@@ -55,7 +61,7 @@ async function loadGraphList() {
 }
 
 function loadGraph(path) {
-  const url = `${PUBLIC}${path}`;
+  const url = `${PROJECT_URL}/storage/v1/object/public/${BUCKET}/${path}`;
   document.getElementById("graphFrame").src = url;
 }
 
