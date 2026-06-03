@@ -49,4 +49,7 @@ We are on [Discord](https://the-algorithms.com/discord) and [Gitter](https://git
 
 ## 📜 List of Algorithms
 
+## 📜 Code Visual Graphs
+<a https://pranaysaani.github.io/Python">
+
 See our [directory](DIRECTORY.md) for easier navigation and a better overview of the project.
