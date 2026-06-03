@@ -1,91 +1,26 @@
-<h2>Available Graphs</h2>
-
-<select id="graphSelector" style="padding:8px; font-size:16px;">
-  <option>Loading graphs...</option>
-</select>
-
-<iframe id="graphFrame"
-        width="100%"
-        height="800"
-        style="border:1px solid #d0d7de; margin-top:20px;">
-</iframe>
-
 <script>
 const PROJECT_URL = "https://mvmckalklogthnnzvjhm.supabase.co";
 const BUCKET = "codeval.ai";
-const ROOT_PREFIX = "repos/TheAlgorithms";
 
-async function listFolder(prefix) {
-  const res = await fetch(`${PROJECT_URL}/storage/v1/object/list/${BUCKET}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-      // You may need this if listing is blocked:
-      // "apikey": "YOUR_SUPABASE_ANON_KEY",
-      // "Authorization": "Bearer YOUR_SUPABASE_ANON_KEY"
-    },
-    body: JSON.stringify({
-      prefix: prefix,
-      limit: 1000,
-      offset: 0,
-      sortBy: { column: "name", order: "asc" }
-    })
-  });
+async function testList() {
+    const res = await fetch(
+        `${PROJECT_URL}/storage/v1/object/list/${BUCKET}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                prefix: "repos/TheAlgorithms"
+            })
+        }
+    );
 
-  if (!res.ok) {
-    console.error("Supabase list error:", await res.text());
-    return [];
-  }
+    console.log("Status:", res.status);
 
-  const items = await res.json();
-  let results = [];
-
-  for (const item of items) {
-    const fullPath = `${prefix}/${item.name}`;
-
-    // Supabase folders often have metadata === null
-    const isFolder = item.metadata === null;
-
-    if (isFolder) {
-      const sub = await listFolder(fullPath);
-      results = results.concat(sub);
-    } else if (fullPath.endsWith(".html")) {
-      results.push(fullPath);
-    }
-  }
-
-  return results;
+    const text = await res.text();
+    console.log("Response:", text);
 }
 
-async function loadGraphList() {
-  const files = await listFolder(ROOT_PREFIX);
-
-  const dropdown = document.getElementById("graphSelector");
-  dropdown.innerHTML = "";
-
-  if (files.length === 0) {
-    dropdown.innerHTML = "<option>No HTML graphs found</option>";
-    return;
-  }
-
-  files.forEach(path => {
-    const option = document.createElement("option");
-    option.value = path;
-    option.textContent = path.replace(ROOT_PREFIX + "/", "");
-    dropdown.appendChild(option);
-  });
-
-  loadGraph(files[0]);
-}
-
-function loadGraph(path) {
-  const url = `${PROJECT_URL}/storage/v1/object/public/${BUCKET}/${path}`;
-  document.getElementById("graphFrame").src = url;
-}
-
-document.getElementById("graphSelector").addEventListener("change", e => {
-  loadGraph(e.target.value);
-});
-
-loadGraphList();
+testList();
 </script>
