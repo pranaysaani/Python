@@ -50,8 +50,9 @@ We are on [Discord](https://the-algorithms.com/discord) and [Gitter](https://git
 ## 📜 List of Algorithms
 
 ## 📜 Code Visual Graphs
-<a href="https://pranaysaani.github.io/Python">
-    <img src="https://img.shields.io/badge/Code%20Visual%20Graphs-Open-blue?style=flat-square" height="20" alt="Code Visual Graphs">
-</a>
+  <a href="https://pranaysaani.github.io/Python">
+      <img src="https://img.shields.io/badge/Code%20Visual%20Graphs-Open-blue?style=flat-square" height="20" alt="Code Visual Graphs">
+  </a>
+
 
 See our [directory](DIRECTORY.md) for easier navigation and a better overview of the project.
