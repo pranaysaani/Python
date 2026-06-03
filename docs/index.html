@@ -1,26 +1,14 @@
-<script>
-const PROJECT_URL = "https://mvmckalklogthnnzvjhm.supabase.co";
-const BUCKET = "codeval.ai";
-
-async function testList() {
-    const res = await fetch(
-        `${PROJECT_URL}/storage/v1/object/list/${BUCKET}`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                prefix: "repos/TheAlgorithms"
-            })
-        }
-    );
-
-    console.log("Status:", res.status);
-
-    const text = await res.text();
-    console.log("Response:", text);
-}
-
-testList();
-</script>
+const res = await fetch(`${PROJECT_URL}/storage/v1/object/list/${BUCKET}`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "apikey": "<YOUR_ANON_KEY>",
+    "Authorization": "Bearer <YOUR_ANON_KEY>"
+  },
+  body: JSON.stringify({
+    prefix: prefix,
+    limit: 1000,
+    offset: 0,
+    sortBy: { column: "name", order: "asc" }
+  })
+});
