@@ -59,7 +59,10 @@ async function listFolder(prefix) {
 
     const items = await res.json();
 
+    console.log("PREFIX:", prefix);
     console.log("Items:", items);
+
+    console.log(JSON.stringify(items, null, 2));
 
     if (!Array.isArray(items)) {
         console.error("Expected array:", items);
@@ -72,6 +75,8 @@ async function listFolder(prefix) {
 
         const fullPath = `${prefix}/${item.name}`;
 
+        console.log("Checking:", fullPath);
+
         const isFolder =
             !item.metadata ||
             item.metadata === null;
@@ -81,7 +86,7 @@ async function listFolder(prefix) {
             results = results.concat(sub);
         }
         else if (
-            fullPath.endsWith(".html")
+            fullPath.endsWith(".*")
         ) {
             results.push(fullPath);
         }
